@@ -1,0 +1,58 @@
+<div class="page-header">
+  <h2>Rushing Performances</h2>
+</div>
+
+<%= form_for :query, method: :get, url: "#{rushing_performances_index_path}?column=#{sort_column}&direction=#{sort_direction}" do |f| %>
+  <div class="form-group">
+    <label>Player Name</label>
+    <%= f.text_field :player_name, value: @player_name, class: 'form-control' %>
+    <%= f.submit 'Filter', class: 'btn btn-default' %>
+  </div>
+
+  <%= link_to 'Download', rushing_performances_index_path(format: :csv) %>
+<% end %>
+
+<hr>
+
+<%= responsive_table do %>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Team</th>
+      <th>Pos</th>
+      <th>Att</th>
+      <th>Att/G</th>
+      <th><%= sortable_header_link('yards', 'Yds') %></th>
+      <th>Avg</th>
+      <th>Yds/G</th>
+      <th><%= sortable_header_link('touchdowns', 'TD') %></th>
+      <th><%= sortable_header_link('long', 'Lng') %></th>
+      <th>1st</th>
+      <th>1st%</th>
+      <th>20+</th>
+      <th>40+</th>
+      <th>FUM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @performances.each do |rp| %>
+      <tr>
+        <td><%= rp.player_name %></td>
+        <td><%= rp.team_abbreviation %></td>
+        <td><%= rp.position_abbreviation %></td>
+        <td><%= rp.attempts %></td>
+        <td><%= rp.attempts_per_game %></td>
+        <td><%= rp.yards %></td>
+        <td><%= rp.yards_per_attempt %></td>
+        <td><%= rp.yards_per_game %></td>
+        <td><%= rp.touchdowns %></td>
+        <td><%= rp.long %></td>
+        <td><%= rp.first_downs %></td>
+        <td><%= rp.first_down_percentage %></td>
+        <td><%= rp.twenty_plus %></td>
+        <td><%= rp.forty_plus %></td>
+        <td><%= rp.fumbles %></td>
+      </tr>
+    <% end %>
+  </tbody>
+<% end %>
